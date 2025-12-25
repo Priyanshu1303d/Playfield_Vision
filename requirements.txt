@@ -1,0 +1,17 @@
+ultralytics==8.0.0
+opencv-python         
+numpy                 
+pandas                
+scikit-learn          
+matplotlib            
+
+fastapi                
+uvicorn               
+python-multipart      
+
+tqdm                  
+roboflow              
+supervision 
+ipykernel          
+
+-e .
