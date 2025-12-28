@@ -220,3 +220,18 @@ stubs/
 # 4. DVC Internal files (If using DVC)
 .dvc/cache
 .dvc/tmp
+
+# --- Datasets & Heavy Data ---
+research/football-players-detection-1/
+research/football-players-detection-1/**/*
+
+# --- Model Weights ---
+*.pt
+*.onnx
+
+# --- Generated Outputs ---
+runs/
+output_videos/
+
+# Ignore training artifacts
+training_results/
