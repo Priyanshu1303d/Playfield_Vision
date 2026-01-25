@@ -171,9 +171,9 @@ class Tracker :
             ball_dict = tracks["ball"][frame_num]
             referee_dict = tracks["referee"][frame_num]
 
-            
             for track_id , player in player_dict.items():
-                frame = self.draw_epllipse(frame, player["bbox"], (0,0,255) , track_id)
+                team_color = player.get("team_color", (0,0,255))
+                frame = self.draw_epllipse(frame, player["bbox"], team_color , track_id)
 
             
             for _ , refree in referee_dict.items():

@@ -1,6 +1,7 @@
 from src.Playfield_Vision.utils.video_utils import read_videos , save_video
 from src.Playfield_Vision.trackers.tracker import Tracker
-
+import cv2
+from src.Playfield_Vision.team_assigner.team_assigner import TeamAssigner
 
 def main():
    "Read Video"
@@ -11,6 +12,29 @@ def main():
    tracker = Tracker("models\\best_yolov5.pt")
    
    tracks = tracker.get_object_tracks(video_frames  , True , "stubs\\track_stubs.pkl")
+
+   # save cropped image of the player
+   # for track_id , player in tracks["player"][0].items():
+   #    frame = video_frames[0]
+   #    bbox = player["bbox"]
+   #    x1 , y1 , x2 , y2 = bbox
+   #    cropped_image = frame[int(y1):int(y2) , int(x1):int(x2)]
+   #    cv2.imwrite(f"output_videos\\save_video_demo\\cropped_image_{track_id}.jpg" , cropped_image)
+   #    break
+
+
+   #Assign team color
+   team_assigner = TeamAssigner()
+   team_assigner.assign_team_color(video_frames[0] , tracks['player'][0])
+
+   for frame_num, player_tracks in enumerate(tracks["player"]):
+      for player_id , track in player_tracks.items():
+         team = team_assigner.get_player_team(video_frames[frame_num] , track["bbox"] , player_id)
+
+         track["team"] = team
+         track["team_color"] = team_assigner.team_colors[team]
+
+
 
    ##Draw output 
    #Draw object tracks
