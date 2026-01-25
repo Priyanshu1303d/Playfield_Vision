@@ -26,6 +26,9 @@ list_of_files = [
     
     f"src/{project_name}/team_assigner/__init__.py",
     f"src/{project_name}/team_assigner/team_assigner.py", # K-Means color clustering
+
+    f"src/{project_name}/player_ball_assigner/__init__.py",
+    f"src/{project_name}/player_ball_assigner/player_ball_assigner.py", # K-Means color clustering
     
     f"src/{project_name}/camera_movement_estimator/__init__.py",
     f"src/{project_name}/camera_movement_estimator/camera_movement_estimator.py", # Optical Flow
