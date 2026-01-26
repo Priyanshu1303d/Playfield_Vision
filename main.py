@@ -6,6 +6,7 @@ from src.Playfield_Vision.player_ball_assigner.player_ball_assigner import Playe
 import numpy as np
 from src.Playfield_Vision.camera_movement_estimator.camera_movement_estimator import CameraMovementEstimator
 from src.Playfield_Vision.view_transformer.view_transformer import ViewTransformer 
+from src.Playfield_Vision.speed_and_distance_estimator.speed_and_distance_estimator import SpeedAndDistance_Estimator
 
 def main():
    "Read Video"
@@ -47,6 +48,13 @@ def main():
    #Interpolate ball positions
    tracks["ball"] = tracker.interpolate_ball_positions(tracks["ball"])
 
+
+   #Speed and distance estimator
+   speed_and_distance_estimator = SpeedAndDistance_Estimator()
+   speed_and_distance_estimator.add_speed_and_distance_to_tracks(tracks)
+   
+
+
    #Assign team color
    team_assigner = TeamAssigner()
    team_assigner.assign_team_color(video_frames[0] , tracks['player'][0])
@@ -84,6 +92,9 @@ def main():
       output_video_frames,
       camera_movement_per_frame,
    )
+
+   #Draw speed and distance
+   output_video_frames = speed_and_distance_estimator.draw_speed_and_distance(output_video_frames , tracks)
 
    #Save Video
    save_video(output_video_frames , "output_videos\\save_video_demo\\output.avi")
