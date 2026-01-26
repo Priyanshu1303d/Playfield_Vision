@@ -4,6 +4,7 @@ import cv2
 from src.Playfield_Vision.team_assigner.team_assigner import TeamAssigner
 from src.Playfield_Vision.player_ball_assigner.player_ball_assigner import PlayerBallAssigner
 import numpy as np
+from src.Playfield_Vision.camera_movement_estimator.camera_movement_estimator import CameraMovementEstimator
 
 def main():
    "Read Video"
@@ -15,6 +16,10 @@ def main():
    
    tracks = tracker.get_object_tracks(video_frames  , False , "stubs\\track_stubs.pkl")
 
+   #get Object positions
+   tracker.add_positions_to_tracks(tracks)
+   
+
    # save cropped image of the player
    # for track_id , player in tracks["player"][0].items():
    #    frame = video_frames[0]
@@ -24,6 +29,15 @@ def main():
    #    cv2.imwrite(f"output_videos\\save_video_demo\\cropped_image_{track_id}.jpg" , cropped_image)
    #    break
 
+
+   # Camera movemtent estimator
+   camera_movement_estimator = CameraMovementEstimator(video_frames)
+   camera_movement_per_frame = camera_movement_estimator.get_camera_movement_estimator(
+      video_frames,
+      read_from_stub = False,
+      stub_path = "stubs\\camera_movement_stubs.pkl"
+   )
+   camera_movement_estimator.add_adjust_positions_to_tracks(tracks , camera_movement_per_frame)
 
    #Interpolate ball positions
    tracks["ball"] = tracker.interpolate_ball_positions(tracks["ball"])
@@ -58,6 +72,13 @@ def main():
    ##Draw output 
    #Draw object tracks
    output_video_frames = tracker.draw_annotations(video_frames , tracks , team_ball_control)
+
+
+   #Draw camera movement
+   output_video_frames = camera_movement_estimator.draw_camera_movement(
+      output_video_frames,
+      camera_movement_per_frame,
+   )
 
    #Save Video
    save_video(output_video_frames , "output_videos\\save_video_demo\\output.avi")
