@@ -103,31 +103,72 @@ Edit `main.py` to customize:
   ```
 
 ## 📁 Project Structure
-
 ```
 Playfield_Vision/
+│
+├── backend/                         # FastAPI backend (API + orchestration)
+│   ├── __init__.py
+│   ├── main.py                      # FastAPI entry point
+│   ├── config.py                    # Env vars, paths, constants
+│   ├── schemas.py                   # Pydantic request/response models
+│   │
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   └── video.py                 # Upload video → process → return results
+│   │
+│   └── services/
+│       ├── __init__.py
+│       ├── pipeline.py              # Calls core Playfield_Vision logic
+│       ├── analysis.py              # Metrics, stats, possession, etc.
+│       ├── heatmap.py               # Heatmap generation
+│       └── report.py                # PDF / analytics report generation
+│
+├── frontend/                        # Streamlit frontend
+│   ├── streamlit_app.py             # Main Streamlit app
+│   │
+│   ├── components/
+│   │   ├── uploader.py              # Video upload UI
+│   │   ├── dashboard.py             # Metrics, charts, KPIs
+│   │   └── visualizations.py        # Heatmaps, trajectories
+│   │
+│   └── utils.py                     # API calls, helpers
+│
 ├── src/
-│   └── Playfield_Vision/
-│       ├── trackers/              # Object detection & tracking
+│   └── Playfield_Vision/            # CORE ML / CV LOGIC
+│       ├── trackers/                # Object detection & tracking
 │       │   └── tracker.py
-│       ├── team_assigner/         # Team color clustering
+│       │
+│       ├── team_assigner/           # Team color clustering
 │       │   └── team_assigner.py
-│       ├── player_ball_assigner/  # Ball possession logic
+│       │
+│       ├── player_ball_assigner/    # Ball possession logic
 │       │   └── player_ball_assigner.py
-│       ├── utils/                 # Helper functions
+│       │
+│       ├── utils/                   # Helper functions
 │       │   ├── video_utils.py
 │       │   └── bbox_utils.py
-│       ├── camera_movement_estimator/  # (Future feature)
-│       ├── speed_and_distance_estimator/ # (Future feature)
-│       └── view_transformer/      # (Future feature)
-├── models/                        # YOLOv5 weights
-├── Input_Videos/                  # Input video files
-├── output_videos/                 # Processed output videos
-├── stubs/                         # Cached tracking data
-├── research/                      # Jupyter notebooks
-├── main.py                        # Main execution script
-├── requirements.txt               # Python dependencies
-└── README.md
+│       │
+│       ├── camera_movement_estimator/        # (Future)
+│       ├── speed_and_distance_estimator/     # (Future)
+│       ├── view_transformer/                 # (Future)
+│       └── __init__.py
+│
+├── models/                          # YOLO / trained weights
+│
+├── data/
+│   ├── input_videos/                # Uploaded raw videos
+│   ├── output_videos/               # Processed videos
+│   └── stubs/                       # Cached tracking data
+│
+├── research/                        # Jupyter notebooks / experiments
+│
+├── Dockerfile.backend
+├── Dockerfile.frontend
+├── docker-compose.yml
+│
+├── requirements.txt
+├── README.md
+└── .env
 ```
 
 ## 🔍 How It Works
