@@ -14,4 +14,10 @@ roboflow
 supervision 
 ipykernel          
 
+streamlit 
+celery 
+redis 
+pillow 
+plotly
+
 -e .
