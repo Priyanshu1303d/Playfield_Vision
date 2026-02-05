@@ -63,7 +63,6 @@ An AI-powered football/soccer analysis system that uses computer vision and mach
    - Or train your own model using the training pipeline
 
 ## 🚀 Usage
-
 ### Basic Usage
 
 1. **Prepare your input video**
